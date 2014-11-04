@@ -1,7 +1,6 @@
 package s3sync
 
 import (
-	"github.com/twinj/uuid"
 	"path/filepath"
 )
 
@@ -11,9 +10,8 @@ func getEtagLocalFilename(localFullPath string) string {
 }
 
 func (this S3Sync) getRemoteFilenameFromLocalPath(localFullPath string) (remotePath string) {
-	localDir := filepath.Dir(localFullPath)
 	// in order for Rel to work properly we need the absolute path of the 'local bag'
-	absLocalPath := filepath.Abs(this.LocalPath)
-	remotePath = filepath.Rel(absLocalPath, localFullPath)
+	absLocalPath, _ := filepath.Abs(this.LocalPath)
+	remotePath, _ = filepath.Rel(absLocalPath, localFullPath)
 	return
 }

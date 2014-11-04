@@ -9,11 +9,15 @@ import (
 	"sync"
 )
 
+var (
+	DOWNLOAD_WORKERS = myenv.GetDownloadWorkers()
+)
+
 func (this S3Sync) DownloadItems(incoming <-chan DownloadEvent) <-chan DownloadEvent {
-	output := make(chan DownloadEvent, 5)
+	output := make(chan DownloadEvent, DOWNLOAD_WORKERS)
 	var wg sync.WaitGroup
-	wg.Add(5)
-	for i := 0; i < 5; i++ {
+	wg.Add(DOWNLOAD_WORKERS)
+	for i := 0; i < DOWNLOAD_WORKERS; i++ {
 		go func() {
 			defer wg.Done()
 			for evt := range incoming {

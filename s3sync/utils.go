@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"net/http"
 	"os"
 	"path/filepath"
 )
@@ -49,5 +50,16 @@ func writeStringToFile(localFullPath string, data string) (err error) {
 	}
 	defer checkClose(out, &err)
 	out.WriteString(data)
+	return
+}
+
+func DetermineContentType(file *os.File) (contentType ContentType, err error) {
+	data := make([]byte, 512)
+	_, err = file.Read(data)
+	defer file.Seek(0, os.SEEK_SET)
+	if err != nil {
+		return
+	}
+	contentType = ContentType(http.DetectContentType(data))
 	return
 }

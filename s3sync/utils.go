@@ -41,7 +41,6 @@ func getFirstLineOfFileAsString(localFullPath string) (output string, err error)
 }
 
 func writeStringToFile(localFullPath string, data string) (err error) {
-	localFullPath = getEtagLocalFilename(localFullPath)
 	// Do local operations first to save on a request to s3 if some local error happened
 	os.MkdirAll(filepath.Dir(localFullPath), 0700)
 	out, err := os.Create(localFullPath)

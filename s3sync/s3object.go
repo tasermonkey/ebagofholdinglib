@@ -26,6 +26,10 @@ func (this S3Object) HasNotChanged() bool {
 	return this.httpResponse.StatusCode == 412 || this.httpResponse.StatusCode == 304
 }
 
+func (this S3Object) HasChanged() bool {
+	return !this.HasChanged()
+}
+
 func (this S3Object) HasDeleteMarker() bool {
 	x := this.getFirstHeaderValue("x-amz-delete-mark")
 	bval, _ := strconv.ParseBool(x)
@@ -97,4 +101,8 @@ func (this S3Object) getFirstHeaderValue(name string) string {
 		return x[0]
 	}
 	return ""
+}
+
+func AddEtagHeader(h map[string][]string, etag string) {
+	h["ETag"] = []string{etag}
 }

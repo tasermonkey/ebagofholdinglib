@@ -12,8 +12,8 @@ type DownloadEvent struct {
 }
 
 type UploadEvent struct {
-	remotePath    string
-	localFileName string
+	RemotePath    string
+	LocalFileName string
 	StartTime     time.Time
 }
 

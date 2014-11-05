@@ -21,7 +21,7 @@ func (this S3Sync) UploadItems(incoming <-chan UploadEvent) <-chan UploadEvent {
 			defer wg.Done()
 			for evt := range incoming {
 				// path string, r io.Reader, length int64, contType string, perm ACL, options Option
-				file, err := os.Open(evt.localFileName)
+				file, err := os.Open(evt.LocalFileName)
 				if err != nil {
 					log.Fatalln(err)
 					continue
@@ -37,7 +37,7 @@ func (this S3Sync) UploadItems(incoming <-chan UploadEvent) <-chan UploadEvent {
 					log.Fatalln(err)
 					continue
 				}
-				err = this.SyncBucket.PutReader(evt.remotePath, file, fi.Size(), string(contentType), s3.Private, s3.Options{})
+				err = this.SyncBucket.PutReader(evt.RemotePath, file, fi.Size(), string(contentType), s3.Private, s3.Options{})
 				if err != nil {
 					log.Fatalln(err)
 					continue
